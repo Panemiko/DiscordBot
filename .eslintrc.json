@@ -4,7 +4,6 @@
         "node": true
     },
     "extends": [
-        "prettier",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended"
     ],
@@ -14,11 +13,9 @@
         "sourceType": "module"
     },
     "plugins": [
-        "prettier",
         "@typescript-eslint"
     ],
     "rules": {
-        "prettier/prettier": "error",
         "space-before-function-paren": "off",
         "no-use-before-define": "off",
         "prefer-promise-reject-errors": "off",
@@ -33,10 +30,6 @@
         "indent": [
             "error",
             4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
         ],
         "quotes": [
             "error",
