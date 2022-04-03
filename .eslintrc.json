@@ -22,6 +22,7 @@
         "prefer-promise-reject-errors": "off",
         "no-useless-escape": "off",
         "padded-blocks": "off",
+        "sort-imports": "error",
         "no-trailing-spaces": "error",
         "max-len": "error",
         "eol-last": [
@@ -40,6 +41,12 @@
             "error",
             {
                 "max": 1
+            }
+        ],
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                "prefer": "type-imports"
             }
         ]
     }
