@@ -1,5 +1,7 @@
 import { Client, Intents } from 'discord.js'
 import Config from './Config'
+import type Event from './Event'
+import ReadyEvent from './events/Ready'
 
 export default class Bot {
     private static _instance: Bot
@@ -17,7 +19,17 @@ export default class Bot {
     async login(): Promise<void> {
         const config = await Config.getInstance().getConfig()
 
+        await this.createEvents()
+
         await this.client.login(config.BOT_TOKEN)
+    }
+
+    async createEvents() {
+        this.registerEvent(new ReadyEvent())
+    }
+
+    async registerEvent(handler: Event): Promise<void> {
+        this.client.on(handler.getEventName(), handler.execute)
     }
 
     private async createClient(): Promise<void> {
