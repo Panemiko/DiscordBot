@@ -5,8 +5,14 @@
   "scripts": {
     "dev": "NODE_ENV=development tsnd --respawn --transpile-only --ignore-watch node_modules --rs ./src/index.ts"
   },
+  "dependencies": {
+    "@google-cloud/firestore": "^5.0.2",
+    "colorts": "^0.1.63",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "winston": "^3.6.0"
+  },
   "devDependencies": {
-    "@types/firebase": "^3.2.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "eslint": "^8.12.0",
@@ -15,12 +21,5 @@
     "prettier": "^2.6.2",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
-  },
-  "dependencies": {
-    "colorts": "^0.1.63",
-    "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
-    "firebase": "^9.6.10",
-    "winston": "^3.6.0"
   }
 }
