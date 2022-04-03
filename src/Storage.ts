@@ -1,23 +1,12 @@
-import type {
-    CollectionReference,
-    DocumentData,
-    Firestore,
-    QueryDocumentSnapshot,
-    QuerySnapshot,
-} from 'firebase/firestore/lite'
-import type { FirebaseApp, FirebaseOptions } from 'firebase/app'
-import { collection, getDocs, getFirestore } from 'firebase/firestore/lite'
+import { Firestore } from '@google-cloud/firestore'
 import { config as dotenv } from 'dotenv'
-import { initializeApp } from 'firebase/app'
 
 export default class Storage {
     private static _instance: Storage
-    private app!: FirebaseApp
     private db!: Firestore
 
     private constructor() {
-        this.createApp(this.getAppConfig())
-        this.createDatabase()
+        this.createDatabase(this.getDatabaseKey())
     }
 
     static getInstance(): Storage {
@@ -25,47 +14,28 @@ export default class Storage {
         return this._instance
     }
 
-    getApplication(): FirebaseApp {
-        return this.app
+    async getCollection<T>(collectionPath: string) {
+        return this.db.collection(
+            collectionPath
+        ) as unknown as FirebaseFirestore.CollectionReference<T>
     }
 
-    getDatabase(): Firestore {
-        return this.db
+    async getDocument(
+        collection: FirebaseFirestore.CollectionReference,
+        id: string
+    ) {
+        return collection.doc(id)
     }
 
-    async getCollection<T = DocumentData>(
-        collectionName: string
-    ): Promise<CollectionReference<T>> {
-        return collection(
-            this.getDatabase(),
-            collectionName
-        ) as CollectionReference<T>
-    }
-
-    async getDocuments(
-        collection: CollectionReference<DocumentData>
-    ): Promise<QueryDocumentSnapshot[]> {
-        return (await getDocs(collection)).docs
-    }
-
-    async query<T>(collectionName: string): Promise<QuerySnapshot<T>> {
-        const collection = await this.getCollection<T>(collectionName)
-        return await getDocs(collection)
-    }
-
-    private getAppConfig(): FirebaseOptions {
+    private getDatabaseKey(): FirebaseFirestore.Settings {
         if (process.env.NODE_ENV === 'development') dotenv()
-        if (!process.env.FIREBASE_CONFIG)
+        if (!process.env.FIREBASE_KEY)
             throw new Error('Firebase config not found')
 
-        return JSON.parse(process.env.FIREBASE_CONFIG)
+        return JSON.parse(process.env.FIREBASE_KEY)
     }
 
-    private async createApp(config: FirebaseOptions): Promise<void> {
-        this.app = initializeApp(config, 'caputao-comunismo')
-    }
-
-    private async createDatabase(): Promise<void> {
-        this.db = getFirestore(this.getApplication())
+    private createDatabase(key: FirebaseFirestore.Settings) {
+        this.db = new Firestore(key)
     }
 }
