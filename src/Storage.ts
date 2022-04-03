@@ -48,9 +48,7 @@ export default class Storage {
         return (await getDocs(collection)).docs
     }
 
-    async queryCollection<T>(
-        collectionName: string
-    ): Promise<QuerySnapshot<T>> {
+    async query<T>(collectionName: string): Promise<QuerySnapshot<T>> {
         const collection = await this.getCollection<T>(collectionName)
         return await getDocs(collection)
     }
