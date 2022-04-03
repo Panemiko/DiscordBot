@@ -11,7 +11,9 @@ export default class Config {
     }
 
     async getConfig() {
-        return await Storage.getInstance().query<Configuration>('settings')
+        return (
+            await Storage.getInstance().query<Configuration>('settings')
+        ).docs[0].data()
     }
 }
 
