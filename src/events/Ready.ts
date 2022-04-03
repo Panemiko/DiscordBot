@@ -1,4 +1,7 @@
+import Bot from '../Bot'
 import Event from '../Event'
+import color from 'colorts'
+import logger from '../logger'
 
 export default class ReadyEvent extends Event {
     constructor() {
@@ -7,6 +10,12 @@ export default class ReadyEvent extends Event {
     }
 
     async execute(): Promise<void> {
-        console.log('login')
+        const bot = Bot.getInstance().client
+
+        logger.info(
+            `${color('Bot Started as').green} ${
+                color(`${bot.user?.username}#${bot.user?.discriminator}`).blue
+            }`
+        )
     }
 }
