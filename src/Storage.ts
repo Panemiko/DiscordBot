@@ -1,17 +1,23 @@
-import { config as dotenv } from 'dotenv'
+import type {
+    CollectionReference,
+    DocumentData,
+    Firestore,
+    QueryDocumentSnapshot,
+    QuerySnapshot,
+} from 'firebase/firestore/lite'
 import type { FirebaseApp, FirebaseOptions } from 'firebase/app'
+import { collection, getDocs, getFirestore } from 'firebase/firestore/lite'
+import { config as dotenv } from 'dotenv'
 import { initializeApp } from 'firebase/app'
-import { Firestore, getFirestore } from 'firebase/firestore/lite'
 
 export default class Storage {
-
     private static _instance: Storage
     private app!: FirebaseApp
     private db!: Firestore
 
     private constructor() {
         this.createApp(this.getDbConfig())
-        this.createFirestore()
+        this.createDatabase()
     }
 
     static getInstance(): Storage {
@@ -27,6 +33,28 @@ export default class Storage {
         return this.db
     }
 
+    async getCollection<T = DocumentData>(
+        collectionName: string
+    ): Promise<CollectionReference<T>> {
+        return collection(
+            this.getDatabase(),
+            collectionName
+        ) as CollectionReference<T>
+    }
+
+    async getDocuments(
+        collection: CollectionReference<DocumentData>
+    ): Promise<QueryDocumentSnapshot[]> {
+        return (await getDocs(collection)).docs
+    }
+
+    async queryCollection<T>(
+        collectionName: string
+    ): Promise<QuerySnapshot<T>> {
+        const collection = await this.getCollection<T>(collectionName)
+        return await getDocs(collection)
+    }
+
     private getDbConfig(): FirebaseOptions {
         if (process.env.NODE_ENV === 'development') dotenv()
         if (!process.env.FIREBASE_CONFIG)
@@ -39,12 +67,7 @@ export default class Storage {
         this.app = initializeApp(config, 'caputao-comunismo')
     }
 
-    private async createFirestore(): Promise<void> {
+    private async createDatabase(): Promise<void> {
         this.db = getFirestore(this.app)
     }
-
-}
-
-export interface Configuration {
-    BOT_TOKEN: string
 }
