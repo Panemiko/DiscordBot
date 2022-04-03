@@ -11,9 +11,13 @@ export default class Config {
     }
 
     async getConfig() {
-        return (
-            await Storage.getInstance().query<Configuration>('settings')
-        ).docs[0].data()
+        const docs = await Storage.getInstance().query<Configuration>(
+            'settings'
+        )
+
+        if (docs.empty) throw new Error('Settings null')
+
+        return docs.docs[0].data()
     }
 }
 
