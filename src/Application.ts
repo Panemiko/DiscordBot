@@ -1,14 +1,14 @@
 import Bot from './Bot'
+import Storage from './Storage'
 
 export default class Application {
 
-    bot: Bot
-
     constructor() {
-        this.bot = Bot.getInstance()
+        Bot.getInstance()
+        Storage.getInstance()
     }
 
-    async run() {
+    async run(): Promise<void> {
 
     }
 

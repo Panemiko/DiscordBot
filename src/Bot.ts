@@ -6,7 +6,7 @@ export default class Bot {
 
     }
 
-    static getInstance() {
+    static getInstance(): Bot {
         if (!this.instance) this.instance = new Bot()
         return this.instance
     }
