@@ -6,6 +6,7 @@
     "dev": "NODE_ENV=development tsnd --respawn --transpile-only --ignore-watch node_modules --rs ./src/index.ts"
   },
   "devDependencies": {
+    "@types/firebase": "^3.2.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "eslint": "^8.12.0",
@@ -13,6 +14,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "discord.js": "^13.6.0"
+    "discord.js": "^13.6.0",
+    "firebase": "^9.6.10"
   }
 }
