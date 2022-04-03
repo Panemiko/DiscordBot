@@ -16,6 +16,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/no-empty-function": "off",
         "space-before-function-paren": "off",
         "no-use-before-define": "off",
         "prefer-promise-reject-errors": "off",
@@ -38,6 +39,12 @@
         "semi": [
             "error",
             "never"
+        ],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 1
+            }
         ]
     }
 }
