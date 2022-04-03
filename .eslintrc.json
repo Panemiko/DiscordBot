@@ -18,7 +18,6 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "prettier/prettier": "error",
         "@typescript-eslint/no-empty-function": "off",
         "space-before-function-paren": "off",
         "no-use-before-define": "off",
@@ -50,6 +49,13 @@
             "error",
             {
                 "prefer": "type-imports"
+            }
+        ],
+        "prettier/prettier": [
+            "error",
+            {},
+            {
+                "usePrettierrc": true
             }
         ]
     }
