@@ -16,7 +16,7 @@ export default class Storage {
     private db!: Firestore
 
     private constructor() {
-        this.createApp(this.getDbConfig())
+        this.createApp(this.getAppConfig())
         this.createDatabase()
     }
 
@@ -53,7 +53,7 @@ export default class Storage {
         return await getDocs(collection)
     }
 
-    private getDbConfig(): FirebaseOptions {
+    private getAppConfig(): FirebaseOptions {
         if (process.env.NODE_ENV === 'development') dotenv()
         if (!process.env.FIREBASE_CONFIG)
             throw new Error('Firebase config not found')
@@ -66,6 +66,6 @@ export default class Storage {
     }
 
     private async createDatabase(): Promise<void> {
-        this.db = getFirestore(this.app)
+        this.db = getFirestore(this.getApplication())
     }
 }
