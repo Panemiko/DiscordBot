@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development tsnd --respawn --transpile-only --ignore-watch node_modules --rs ./src/index.ts"
+    "dev": "NODE_ENV=development tsnd --respawn --transpile-only --ignore-watch node_modules --rs ./src/index.ts",
+    "build": "tsc",
+    "start": "NODE_ENV=production node ./dist/index.js"
   },
   "dependencies": {
     "@google-cloud/firestore": "^5.0.2",
