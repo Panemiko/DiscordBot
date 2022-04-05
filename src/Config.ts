@@ -1,4 +1,5 @@
-import type { ActivityType, PresenceStatus } from 'discord.js'
+import type { ExcludeEnum, PresenceStatusData } from 'discord.js'
+import type { ActivityTypes } from 'discord.js/typings/enums'
 import Storage from './Storage'
 
 export default class Config {
@@ -19,7 +20,6 @@ export default class Config {
         )
 
         const docData = (await doc.get()).data()
-
         if (!doc || !docData) throw new Error('Settings null')
 
         return docData
@@ -29,8 +29,8 @@ export default class Config {
 export interface Configuration {
     botToken: string
     presence: {
-        type: ActivityType
         name: string
-        status: PresenceStatus
+        type: ExcludeEnum<typeof ActivityTypes, 'CUSTOM'>
+        status: PresenceStatusData
     }
 }

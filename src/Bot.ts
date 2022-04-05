@@ -1,4 +1,6 @@
 import { Client, Intents } from 'discord.js'
+import type { ExcludeEnum, PresenceStatusData } from 'discord.js'
+import type { ActivityTypes } from 'discord.js/typings/enums'
 import Config from './Config'
 import type Event from './Event'
 import ReadyEvent from './events/Ready'
@@ -30,6 +32,22 @@ export default class Bot {
 
     async registerEvent(handler: Event): Promise<void> {
         this.client.on(handler.getEventName(), handler.execute)
+    }
+
+    async updatePresence(
+        name: string,
+        type: ExcludeEnum<typeof ActivityTypes, 'CUSTOM'>,
+        status?: PresenceStatusData
+    ) {
+        this.client.user?.setPresence({
+            activities: [
+                {
+                    name,
+                    type,
+                },
+            ],
+            status,
+        })
     }
 
     private async createClient(): Promise<void> {

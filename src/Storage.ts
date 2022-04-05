@@ -1,8 +1,6 @@
-import type { App } from 'firebase-admin/app'
 import type { Firestore } from '@google-cloud/firestore'
 import admin from 'firebase-admin'
 import { config as dotenv } from 'dotenv'
-import { initializeApp } from 'firebase-admin/app'
 
 export default class Storage {
     private static _instance: Storage
