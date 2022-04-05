@@ -4,6 +4,7 @@ import type { ActivityTypes } from 'discord.js/typings/enums'
 import type Command from './Command'
 import Config from './Config'
 import type Event from './Event'
+import PingCommand from './commands/Ping'
 import { REST } from '@discordjs/rest'
 import ReadyEvent from './events/Ready'
 import { Routes } from 'discord-api-types/v9'
@@ -35,7 +36,7 @@ export default class Bot {
     }
 
     async createCommands() {
-        this.registerCommand
+        this.registerCommand(new PingCommand())
     }
 
     async registerEvent(handler: Event): Promise<void> {
@@ -54,9 +55,14 @@ export default class Bot {
         if (!this.client.user) throw new Error('Bot not initialized')
         if (!this.commands) throw new Error('No command found')
 
+        const commandData = []
+        for (const command of this.commands) {
+            commandData.push((await command.getData()).toJSON())
+        }
+
         await rest.put(
             Routes.applicationGuildCommands(this.client.user.id, id),
-            { body: this.commands }
+            { body: commandData }
         )
     }
 

@@ -1,5 +1,15 @@
-import type { SlashCommandBuilder } from '@discordj/builders'
+import type { SlashCommandBuilder } from '@discordjs/builders'
 
 export default abstract class Command {
-    abstract data: SlashCommandBuilder
+    data!: SlashCommandBuilder
+
+    abstract execute(): Promise<void>
+
+    protected async setData(data: SlashCommandBuilder): Promise<void> {
+        this.data = data
+    }
+
+    async getData(): Promise<SlashCommandBuilder> {
+        return this.data
+    }
 }
