@@ -16,6 +16,7 @@ export default class ReadyEvent extends Event {
         const { name, type, status } = (await Config.getInstance().getConfig())
             .presence
 
+        await bot.registerAllServerCommands()
         await bot.updatePresence(name, type, status)
 
         logger.info(

@@ -27,6 +27,7 @@ export default class Bot {
         const config = await Config.getInstance().getConfig()
 
         await this.createEvents()
+        await this.createCommands()
 
         await this.client.login(config.botToken)
     }
@@ -48,7 +49,15 @@ export default class Bot {
         this.commands.push(command)
     }
 
-    async registerServerCommand(id: string) {
+    async registerAllServerCommands() {
+        const servers = await this.client.guilds.fetch()
+
+        for (const server of servers) {
+            await this.registerServerCommands(server[1].id)
+        }
+    }
+
+    async registerServerCommands(id: string) {
         const config = await Config.getInstance().getConfig()
         const rest = new REST({ version: '9' }).setToken(config.botToken)
 
