@@ -14,17 +14,14 @@ export default class Storage {
         return this._instance
     }
 
-    async getCollection<T>(collectionPath: string) {
-        return this.db.collection(
-            collectionPath
-        ) as unknown as FirebaseFirestore.CollectionReference<T>
+    async getCollection(collectionPath: string) {
+        return this.db.collection(collectionPath)
     }
 
-    async getDocument(
-        collection: FirebaseFirestore.CollectionReference,
-        id: string
-    ) {
-        return collection.doc(id)
+    async getDocument<T>(collectionPath: string, id: string) {
+        return this.db
+            .collection(collectionPath)
+            .doc(id) as unknown as FirebaseFirestore.DocumentReference<T>
     }
 
     private getDatabaseKey(): FirebaseFirestore.Settings {

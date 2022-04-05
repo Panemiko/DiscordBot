@@ -1,3 +1,4 @@
+import type { ActivityType, PresenceStatus } from 'discord.js'
 import Storage from './Storage'
 
 export default class Config {
@@ -11,16 +12,25 @@ export default class Config {
     }
 
     async getConfig() {
-        const docs = await Storage.getInstance().query<Configuration>(
+        const storage = Storage.getInstance()
+        const doc = await storage.getDocument<Configuration>(
+            'settings',
             'settings'
         )
 
-        if (docs.empty) throw new Error('Settings null')
+        const docData = (await doc.get()).data()
 
-        return docs.docs[0].data()
+        if (!doc || !docData) throw new Error('Settings null')
+
+        return docData
     }
 }
 
 export interface Configuration {
-    BOT_TOKEN: string
+    botToken: string
+    presence: {
+        type: ActivityType
+        name: string
+        status: PresenceStatus
+    }
 }

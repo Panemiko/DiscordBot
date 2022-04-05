@@ -21,7 +21,7 @@ export default class Bot {
 
         await this.createEvents()
 
-        await this.client.login(config.BOT_TOKEN)
+        await this.client.login(config.botToken)
     }
 
     async createEvents() {
